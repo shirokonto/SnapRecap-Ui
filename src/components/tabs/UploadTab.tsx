@@ -1,4 +1,4 @@
-import React from 'react';
+import { Dispatch, SetStateAction, ChangeEvent } from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import TitleBox from 'components/boxes/TitleBox';
 import VideoBox from 'components/boxes/VideoBox';
@@ -7,11 +7,11 @@ import ImageBox from 'components/boxes/ImageBox';
 
 type UploadTabProps = {
   videoFile: File | null;
-  setVideoFile: React.Dispatch<React.SetStateAction<File | null>>;
+  setVideoFile: Dispatch<SetStateAction<File | null>>;
   videoTitle: string | null;
-  setVideoTitle: React.Dispatch<React.SetStateAction<string | null>>;
+  setVideoTitle: Dispatch<SetStateAction<string | null>>;
   sections: string[];
-  setSections: React.Dispatch<React.SetStateAction<string[]>>;
+  setSections: Dispatch<SetStateAction<string[]>>;
   handleGetSummary: () => Promise<void>;
 };
 
@@ -24,7 +24,7 @@ const UploadTab = ({
   setSections,
   handleGetSummary,
 }: UploadTabProps) => {
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
     setVideoFile(event.target.files[0]);
   };

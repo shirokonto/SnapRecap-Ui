@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, SyntheticEvent } from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -9,6 +9,13 @@ import ExportTab from 'components/tabs/ExportTab';
 import VerifyTab from 'components/tabs/VerifyTab';
 import UploadTab from 'components/tabs/UploadTab';
 import Typography from '@mui/material/Typography';
+import { TranscriptionChunk } from 'types/transcription';
+
+type Result = {
+  file_name: string;
+  transcription: TranscriptionChunk[];
+  summary: string;
+};
 
 const VideoUploader = () => {
   const [tab, setOpenedTab] = useState('1');
@@ -17,11 +24,11 @@ const VideoUploader = () => {
   const [videoTitle, setVideoTitle] = useState<string | null>(null);
   const [sections, setSections] = useState<string[]>(['']);
   const [fileName, setFileName] = useState('');
-  const [transcription, setTranscription] = useState('');
+  const [transcription, setTranscription] = useState<TranscriptionChunk[]>([]);
   const [summary, setSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleTabChange = (event: React.SyntheticEvent, tabToOpen: string) => {
+  const handleTabChange = (event: SyntheticEvent, tabToOpen: string) => {
     setOpenedTab(tabToOpen);
   };
 
@@ -40,7 +47,8 @@ const VideoUploader = () => {
         body: formData,
         mode: 'cors',
       });
-      const result = await response.json();
+      const result: Result = await response.json();
+      console.log(result.transcription);
       setFileName(result.file_name);
       setTranscription(result.transcription);
       setSummary(result.summary);
@@ -115,7 +123,11 @@ const VideoUploader = () => {
               )}
             </TabPanel>
             <TabPanel value="2">
-              <VerifyTab summary={summary} transcription={transcription} />
+              <VerifyTab
+                transcription={transcription}
+                summary={summary}
+                sections={sections}
+              />
             </TabPanel>
             <TabPanel value="3">
               <ExportTab fileName={fileName} summary={summary} />

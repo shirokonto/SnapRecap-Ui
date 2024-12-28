@@ -1,4 +1,4 @@
-import React from 'react';
+import { Dispatch, SetStateAction, ChangeEvent } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
@@ -9,7 +9,7 @@ interface SectionsBoxProps {
   onSectionChange: (index: number, value: string) => void;
   onAddSection: () => void;
   onDeleteSection: (index: number) => void;
-  setTestingSections: React.Dispatch<React.SetStateAction<string[]>>;
+  setTestingSections: Dispatch<SetStateAction<string[]>>;
 }
 
 const SectionsBox = ({
@@ -77,7 +77,7 @@ const SectionsBox = ({
           <TextField
             variant="outlined"
             value={section}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
               onSectionChange(index, e.target.value);
             }}
             size="small"

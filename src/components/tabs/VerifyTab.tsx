@@ -1,21 +1,25 @@
 import React from 'react';
+import TranscriptBox from 'components/boxes/TranscriptBox';
+import { TranscriptionChunk } from 'types/transcription';
+import SummaryBox from 'components/boxes/SummaryBox';
+import Stack from '@mui/material/Stack';
 
 const VerifyTab = ({
   transcription,
   summary,
+  sections,
 }: {
-  transcription: string;
+  transcription: TranscriptionChunk[];
   summary: string;
+  sections: string[];
 }) => {
   return (
-    <div>
-      <h3>Transcription:</h3>
-      <pre>{transcription}</pre>
-      <h3>Summary:</h3>
-      <p>{summary}</p>
+    <Stack direction="column" spacing={2}>
+      <TranscriptBox transcription={transcription} sections={sections} />
+      <SummaryBox summary={summary} sections={sections} />
       <h3>Screenshots:</h3>
       <p>Add screenshots on the right?</p>
-    </div>
+    </Stack>
   );
 };
 
