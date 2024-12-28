@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import { CloudUpload } from '@mui/icons-material';
 
 interface VideoBoxProps {
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  videoTitle: string | null;
+  setVideoTitle: React.Dispatch<React.SetStateAction<string | null>>;
+  onVideoChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
-
-const VideoBox = (props: VideoBoxProps) => {
-  const [videoTitle, setVideoTitle] = useState<string | null>(null);
-
+const VideoBox = ({
+  videoTitle,
+  setVideoTitle,
+  onVideoChange,
+}: VideoBoxProps) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       setVideoTitle(file.name);
-      props.onChange(event);
+      onVideoChange(event);
     }
   };
 

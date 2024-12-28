@@ -4,22 +4,52 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import CircularProgress from '@mui/material/CircularProgress';
 import ExportTab from 'components/tabs/ExportTab';
 import VerifyTab from 'components/tabs/VerifyTab';
 import UploadTab from 'components/tabs/UploadTab';
 import Typography from '@mui/material/Typography';
 
 const VideoUploader = () => {
-  const [value, setValue] = useState('1');
+  const [tab, setOpenedTab] = useState('1');
 
   const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [videoTitle, setVideoTitle] = useState<string | null>(null);
   const [sections, setSections] = useState<string[]>(['']);
   const [fileName, setFileName] = useState('');
   const [transcription, setTranscription] = useState('');
   const [summary, setSummary] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+  const handleTabChange = (event: React.SyntheticEvent, tabToOpen: string) => {
+    setOpenedTab(tabToOpen);
+  };
+
+  const handleGetSummary = async () => {
+    if (!videoFile) return;
+
+    setIsLoading(true);
+
+    const formData = new FormData();
+    formData.append('file', videoFile);
+    formData.append('sections', JSON.stringify(sections));
+
+    try {
+      const response = await fetch('http://localhost:8000/transcribe', {
+        method: 'POST',
+        body: formData,
+        mode: 'cors',
+      });
+      const result = await response.json();
+      setFileName(result.file_name);
+      setTranscription(result.transcription);
+      setSummary(result.summary);
+      setOpenedTab('2'); // Switch to Verify tab
+    } catch (error) {
+      console.error('Error uploading video:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -47,33 +77,42 @@ const VideoUploader = () => {
         }}
       >
         <Box sx={{ width: '100%', typography: 'body1' }}>
-          <TabContext value={value}>
+          <TabContext value={tab}>
             <Box
               sx={{
                 borderColor: 'divider',
                 paddingLeft: '24px',
               }}
             >
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-              >
+              <TabList onChange={handleTabChange}>
                 <Tab label="Upload" value="1" />
-                {/* TODO Gray out if Generating Summary failed*/}
                 <Tab label="Verify" value="2" />
                 <Tab label="Export" value="3" />
               </TabList>
             </Box>
             <TabPanel value="1">
-              <UploadTab
-                videoFile={videoFile}
-                setVideoFile={setVideoFile}
-                sections={sections}
-                setSections={setSections}
-                setFileName={setFileName}
-                setTranscription={setTranscription}
-                setSummary={setSummary}
-              />
+              {isLoading ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '300px',
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              ) : (
+                <UploadTab
+                  videoFile={videoFile}
+                  setVideoFile={setVideoFile}
+                  videoTitle={videoTitle}
+                  setVideoTitle={setVideoTitle}
+                  sections={sections}
+                  setSections={setSections}
+                  handleGetSummary={handleGetSummary}
+                />
+              )}
             </TabPanel>
             <TabPanel value="2">
               <VerifyTab summary={summary} transcription={transcription} />

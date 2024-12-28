@@ -9,6 +9,7 @@ interface SectionsBoxProps {
   onSectionChange: (index: number, value: string) => void;
   onAddSection: () => void;
   onDeleteSection: (index: number) => void;
+  setTestingSections: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const SectionsBox = ({
@@ -16,6 +17,7 @@ const SectionsBox = ({
   onSectionChange,
   onAddSection,
   onDeleteSection,
+  setTestingSections,
 }: SectionsBoxProps) => {
   return (
     <Box
@@ -32,6 +34,25 @@ const SectionsBox = ({
         width: '100%',
       }}
     >
+      {/* Testing Button to prefill sections */}
+      <Button
+        onClick={() =>
+          setTestingSections([
+            'Introduction',
+            'What is Jenkins?',
+            'How does Jenkins work?',
+            'In conclusion',
+          ])
+        }
+        sx={{
+          backgroundColor: '#007BFF',
+          color: 'white',
+          textTransform: 'none',
+          marginBottom: '16px',
+        }}
+      >
+        Testing
+      </Button>
       <Typography variant="h6" sx={{ color: '#555555', fontWeight: 'bold' }}>
         Sections:
       </Typography>
