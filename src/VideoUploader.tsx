@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from 'react';
+import React, { useState, SyntheticEvent, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -10,6 +10,10 @@ import VerifyTab from 'components/tabs/VerifyTab';
 import UploadTab from 'components/tabs/UploadTab';
 import Typography from '@mui/material/Typography';
 import { TranscriptionChunk } from 'types/transcription';
+import FontDownloadOutlinedIcon from '@mui/icons-material/FontDownloadOutlined';
+import ClosedCaptionOutlinedIcon from '@mui/icons-material/ClosedCaptionOutlined';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import IconButton from 'components/common/IconButton';
 
 type Result = {
   file_name: string;
@@ -19,6 +23,8 @@ type Result = {
 
 const VideoUploader = () => {
   const [tab, setOpenedTab] = useState('1');
+  const [iconButtonLeft, setIconButtonLeft] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoTitle, setVideoTitle] = useState<string | null>(null);
@@ -27,6 +33,15 @@ const VideoUploader = () => {
   const [transcription, setTranscription] = useState<TranscriptionChunk[]>([]);
   const [summary, setSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    console.log(contentRef.current);
+    if (contentRef.current) {
+      const contentRect = contentRef.current.getBoundingClientRect();
+      console.log(contentRect);
+      setIconButtonLeft(contentRect.left - 87 - 48); // Place IconButtons to the left of the container
+    }
+  }, [tab]); // Recalculate when tab changes
 
   const handleTabChange = (event: SyntheticEvent, tabToOpen: string) => {
     setOpenedTab(tabToOpen);
@@ -66,8 +81,8 @@ const VideoUploader = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        position: 'relative', // Enable positioning for child elements
         gap: 2,
-        paddingX: '10%',
       }}
     >
       <Typography
@@ -76,7 +91,28 @@ const VideoUploader = () => {
       >
         Summarize Video
       </Typography>
+
+      {/* TODO fix position of IconButtons */}
+      {tab === '2' && (
+        <Box
+          sx={{
+            position: 'absolute', // Position IconButtons independently
+            left: `${iconButtonLeft}px`, // Dynamically calculated position
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '16px',
+            width: '87px', // Fixed width for the icons
+          }}
+        >
+          <IconButton label={'Transcript'} icon={ClosedCaptionOutlinedIcon} />
+          <IconButton label={'Summary'} icon={FontDownloadOutlinedIcon} />
+          <IconButton label={'Screenshots'} icon={ImageOutlinedIcon} />
+        </Box>
+      )}
       <Box
+        id="tabs-and-content-container"
+        ref={contentRef}
         sx={{
           width: '100%',
           maxWidth: '1200px',
