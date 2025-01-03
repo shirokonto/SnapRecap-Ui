@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, ChangeEvent } from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography, Grid2 } from '@mui/material';
 import TitleBox from 'components/boxes/TitleBox';
 import VideoBox from 'components/boxes/VideoBox';
 import SectionBox from 'components/boxes/SectionBox';
@@ -42,52 +42,65 @@ const UploadTab = ({
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
-      {/* Left Side */}
-      <Box sx={{ flex: 1 }}>
-        <Stack direction="column" spacing={2} alignItems="center">
-          <TitleBox label="Title:" />
-          <VideoBox
-            onVideoChange={handleFileUpload}
-            videoTitle={videoTitle}
-            setVideoTitle={setVideoTitle}
-          />
-          <SectionBox
-            sections={sections}
-            onSectionChange={handleSectionChange}
-            onAddSection={addSection}
-            onDeleteSection={deleteSection}
-            setTestingSections={setSections}
-          />
-        </Stack>
-      </Box>
-      {/* Right Side */}
-      <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
+    <Box>
+      <Grid2
+        container
+        spacing={2}
+        marginX={8}
+        sx={{ justifyContent: 'center' }}
       >
-        <ImageBox videoFile={videoFile} />
-        <Button
-          onClick={handleGetSummary}
-          variant="contained"
-          color="primary"
-          disabled={!videoFile}
-          sx={{
-            textTransform: 'none',
-            marginTop: 2,
-            width: '80%',
-            borderRadius: '10px',
-          }}
-        >
-          <Typography sx={{ color: 'white', fontSize: '17px' }}>
-            Generate Summary
-          </Typography>
-        </Button>
-      </Box>
+        <Grid2 size={1} />
+        <Grid2 size={8}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
+            {/* Left Side */}
+            <Box sx={{ flex: 1 }}>
+              <Stack direction="column" spacing={2} alignItems="center">
+                <TitleBox label="Title:" />
+                <VideoBox
+                  onVideoChange={handleFileUpload}
+                  videoTitle={videoTitle}
+                  setVideoTitle={setVideoTitle}
+                />
+                <SectionBox
+                  sections={sections}
+                  onSectionChange={handleSectionChange}
+                  onAddSection={addSection}
+                  onDeleteSection={deleteSection}
+                  setTestingSections={setSections}
+                />
+              </Stack>
+            </Box>
+            {/* Right Side */}
+            <Box
+              sx={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <ImageBox videoFile={videoFile} />
+              <Button
+                onClick={handleGetSummary}
+                variant="contained"
+                color="primary"
+                disabled={!videoFile}
+                sx={{
+                  textTransform: 'none',
+                  marginTop: 2,
+                  width: '80%',
+                  borderRadius: '10px',
+                }}
+              >
+                <Typography sx={{ color: 'white', fontSize: '17px' }}>
+                  Generate Summary
+                </Typography>
+              </Button>
+            </Box>
+          </Box>
+        </Grid2>
+        <Grid2 size={1} />
+      </Grid2>
     </Box>
   );
 };

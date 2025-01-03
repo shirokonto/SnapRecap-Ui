@@ -64,6 +64,7 @@ const SummaryBox = ({
       spacing={2}
       sx={{
         backgroundColor: '#F8F9F9',
+        borderRadius: '8px',
         padding: '16px',
       }}
     >

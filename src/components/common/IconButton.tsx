@@ -1,31 +1,52 @@
 import { SvgIconComponent } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 interface IconButtonProps {
   label: string;
   icon: SvgIconComponent;
+  onClick: () => void;
+  selected?: boolean;
 }
 
-const IconButton = ({ label, icon: Icon }: IconButtonProps) => {
+const IconButton = ({
+  label,
+  icon: Icon,
+  onClick,
+  selected = false,
+}: IconButtonProps) => {
   return (
-    <Box
+    <Button
+      variant="text"
+      onClick={onClick}
       sx={{
-        borderRadius: 10,
-        background: '#D6E6FD',
+        backgroundColor: selected ? '#D6E6FD' : 'transparent',
+        color: selected ? '#292D8D' : '#A9A9A9',
         display: 'flex',
-        padding: 8,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        alignSelf: 'stretch',
+        textTransform: 'none',
+        padding: 1,
+        borderRadius: 2,
+        '&:hover': {
+          backgroundColor: selected ? '#B0D4FB' : '#F0F0F0',
+        },
+        maxWidth: '97px',
       }}
     >
-      <Icon />
-      <Typography variant="body2" sx={{ color: '#555555', fontWeight: 'bold' }}>
+      <Icon fontSize="large" />
+      <Typography
+        variant="body2"
+        sx={{
+          fontWeight: 'bold',
+          marginTop: 1,
+          color: selected ? '#292D8D' : '#A9A9A9',
+        }}
+      >
         {label}
       </Typography>
-    </Box>
+    </Button>
   );
 };
 export default IconButton;

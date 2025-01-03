@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Box, Grid2, Stack } from '@mui/material';
+import TitleBox from 'components/boxes/TitleBox';
 
 type ExportTabProps = {
   fileName: string;
@@ -81,20 +83,46 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={confluencePageId}
-        placeholder="Confluence Page ID"
-        onChange={(e) => setConfluencePageId(e.target.value)}
-      />
-      <div>
-        <button onClick={handleUpdateOnConfluence}>Update on Given Page</button>
-        <button onClick={handleCreateNewOnConfluence}>
-          Create New Under Parent ID
-        </button>
-      </div>
-    </div>
+    <Box>
+      <Grid2 container spacing={2} marginX={8}>
+        <Grid2 size={1} />
+        <Grid2 size={8}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
+            {/* Left Side */}
+            <Box sx={{ flex: 1 }}>
+              <Stack direction="column" spacing={2} alignItems="center">
+                <input
+                  type="text"
+                  value={confluencePageId}
+                  placeholder="Confluence Page ID"
+                  onChange={(e) => setConfluencePageId(e.target.value)}
+                />
+                <div>
+                  <button onClick={handleUpdateOnConfluence}>
+                    Update on Given Page
+                  </button>
+                  <button onClick={handleCreateNewOnConfluence}>
+                    Create New Under Parent ID
+                  </button>
+                </div>
+              </Stack>
+            </Box>
+            {/* Right Side */}
+            <Box
+              sx={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <TitleBox label="Placeholder:" />
+            </Box>
+          </Box>
+        </Grid2>
+        <Grid2 size={1} />
+      </Grid2>
+    </Box>
   );
 };
 
