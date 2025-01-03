@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Grid2, Stack } from '@mui/material';
+import { Box, Button, Grid2, Stack, Typography } from '@mui/material';
 import TitleBox from 'components/boxes/TitleBox';
-
+import IconButton from 'components/common/IconButton';
+import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 type ExportTabProps = {
   fileName: string;
   summary: string;
@@ -9,6 +11,9 @@ type ExportTabProps = {
 
 const ExportTab = ({ fileName, summary }: ExportTabProps) => {
   const [confluencePageId, setConfluencePageId] = useState('');
+  const [activeSideTab, setActiveSideTab] = useState<
+    'transcript' | 'summary' | 'screenshots' | null
+  >('transcript');
 
   const handleCreateNewOnConfluence = async () => {
     if (!confluencePageId || confluencePageId === '') {
@@ -77,34 +82,94 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
 
   const handlePageIdChange = (pageId: string) => {
     if (pageId) {
-      console.log('Page ID:', pageId);
       setConfluencePageId(pageId);
+    } else {
+      setConfluencePageId('');
     }
   };
 
   return (
     <Box>
-      <Grid2 container spacing={2} marginX={8}>
-        <Grid2 size={1} />
+      <Grid2
+        container
+        spacing={2}
+        marginX={8}
+        sx={{ justifyContent: 'center' }}
+      >
+        <Grid2 size={1}>
+          <Box
+            id="iconbutton-list-container"
+            gap={2}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <IconButton
+              label="Confluence"
+              icon={BackupOutlinedIcon}
+              onClick={() =>
+                setActiveSideTab(
+                  activeSideTab === 'transcript' ? null : 'transcript',
+                )
+              }
+              selected={activeSideTab === 'transcript'}
+            />
+            <IconButton
+              label="Download PDF"
+              icon={FileDownloadOutlinedIcon}
+              onClick={() =>
+                setActiveSideTab(activeSideTab === 'summary' ? null : 'summary')
+              }
+              selected={activeSideTab === 'summary'}
+            />
+          </Box>
+        </Grid2>
         <Grid2 size={8}>
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
             {/* Left Side */}
             <Box sx={{ flex: 1 }}>
               <Stack direction="column" spacing={2} alignItems="center">
-                <input
-                  type="text"
-                  value={confluencePageId}
-                  placeholder="Confluence Page ID"
-                  onChange={(e) => setConfluencePageId(e.target.value)}
+                <TitleBox
+                  label="Confluence Page ID:"
+                  placeholder={'Enter Confluence Page ID'}
+                  onTextInput={handlePageIdChange}
                 />
                 <div>
-                  <button onClick={handleUpdateOnConfluence}>
-                    Update on Given Page
-                  </button>
-                  <button onClick={handleCreateNewOnConfluence}>
-                    Create New Under Parent ID
-                  </button>
+                  You can find the page id when you edit the page on confluence
                 </div>
+                <Button
+                  onClick={handleUpdateOnConfluence}
+                  variant="contained"
+                  color="primary"
+                  disabled={!confluencePageId}
+                  sx={{
+                    textTransform: 'none',
+                    marginTop: 2,
+                    width: '80%',
+                    borderRadius: '10px',
+                  }}
+                >
+                  <Typography sx={{ color: 'white', fontSize: '17px' }}>
+                    Update on Given Page
+                  </Typography>
+                </Button>
+                <Button
+                  onClick={handleCreateNewOnConfluence}
+                  variant="contained"
+                  color="primary"
+                  disabled={!confluencePageId || confluencePageId === ''}
+                  sx={{
+                    textTransform: 'none',
+                    marginTop: 2,
+                    width: '80%',
+                    borderRadius: '10px',
+                  }}
+                >
+                  <Typography sx={{ color: 'white', fontSize: '17px' }}>
+                    Create New Under Parent ID
+                  </Typography>
+                </Button>
               </Stack>
             </Box>
             {/* Right Side */}
@@ -116,7 +181,7 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
                 alignItems: 'center',
               }}
             >
-              <TitleBox label="Placeholder:" />
+              <TitleBox label="Placeholder Document Preview:" />
             </Box>
           </Box>
         </Grid2>

@@ -5,9 +5,11 @@ import Typography from '@mui/material/Typography';
 
 interface TitleBoxProps {
   label: string;
+  placeholder?: string;
+  onTextInput?: (pageId: string) => void;
 }
 
-const TitleBox = (props: TitleBoxProps) => {
+const TitleBox = ({ label, placeholder, onTextInput }: TitleBoxProps) => {
   return (
     <Box
       sx={{
@@ -23,14 +25,15 @@ const TitleBox = (props: TitleBoxProps) => {
     >
       {/* Text on the Left */}
       <Typography variant="h6" sx={{ color: '#555555', fontWeight: 'bold' }}>
-        {props.label}
+        {label}
       </Typography>
 
       {/* Input Field on the Right */}
       <TextField
         variant="outlined"
         size="small"
-        placeholder="Enter title here"
+        placeholder={placeholder ?? 'Enter title here'}
+        onChange={(e) => onTextInput && onTextInput(e.target.value)}
         sx={{
           backgroundColor: '#FFFFFF',
           borderRadius: '4px',

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TranscriptBox from 'components/boxes/TranscriptBox';
 import { TranscriptionChunk } from 'types/transcription';
 import SummaryBox from 'components/boxes/SummaryBox';
-import { Box, Button, Grid2, Stack, Typography } from '@mui/material';
+import { Box, Grid2 } from '@mui/material';
 import IconButton from 'components/common/IconButton';
 import ClosedCaptionOutlinedIcon from '@mui/icons-material/ClosedCaptionOutlined';
 import FontDownloadOutlinedIcon from '@mui/icons-material/FontDownloadOutlined';
@@ -18,7 +18,7 @@ const VerifyTab = ({
   summary: string;
   sections: string[];
 }) => {
-  const [activeTab, setActiveTab] = useState<
+  const [activeSideTab, setActiveSideTab] = useState<
     'transcript' | 'summary' | 'screenshots' | null
   >('transcript');
 
@@ -43,25 +43,29 @@ const VerifyTab = ({
               label="Transcript"
               icon={ClosedCaptionOutlinedIcon}
               onClick={() =>
-                setActiveTab(activeTab === 'transcript' ? null : 'transcript')
+                setActiveSideTab(
+                  activeSideTab === 'transcript' ? null : 'transcript',
+                )
               }
-              selected={activeTab === 'transcript'}
+              selected={activeSideTab === 'transcript'}
             />
             <IconButton
               label="Summary"
               icon={FontDownloadOutlinedIcon}
               onClick={() =>
-                setActiveTab(activeTab === 'summary' ? null : 'summary')
+                setActiveSideTab(activeSideTab === 'summary' ? null : 'summary')
               }
-              selected={activeTab === 'summary'}
+              selected={activeSideTab === 'summary'}
             />
             <IconButton
               label="Screenshots"
               icon={ImageOutlinedIcon}
               onClick={() =>
-                setActiveTab(activeTab === 'screenshots' ? null : 'screenshots')
+                setActiveSideTab(
+                  activeSideTab === 'screenshots' ? null : 'screenshots',
+                )
               }
-              selected={activeTab === 'screenshots'}
+              selected={activeSideTab === 'screenshots'}
             />
           </Box>
         </Grid2>
@@ -69,19 +73,22 @@ const VerifyTab = ({
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
             {/* Left Side */}
             <Box sx={{ flex: 1 }}>
-              {activeTab === 'transcript' && (
+              {activeSideTab === 'transcript' && (
                 <TranscriptBox
                   transcription={transcription}
                   sections={sections}
                 />
               )}
-              {activeTab === 'summary' && (
+              {activeSideTab === 'summary' && (
                 <SummaryBox summary={summary} sections={sections} />
               )}
-              {activeTab === 'screenshots' && (
+              {activeSideTab === 'screenshots' && (
                 <>
                   <h3>Screenshots:</h3>
-                  <p>Add screenshots on the right?</p>
+                  <p>
+                    Choose screenshots on the right, will be presented in export
+                    to drag them
+                  </p>
                 </>
               )}
             </Box>
