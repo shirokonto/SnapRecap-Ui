@@ -1,4 +1,3 @@
-import { TranscriptionChunk } from 'src/types/transcription';
 import { useEffect, useRef, useState } from 'react';
 import {
   Box,
@@ -22,7 +21,7 @@ const SummaryBox = ({
   summary: string;
   sections: string[];
 }) => {
-  // TODO sections should still be used. if no summary is available show palceholder "No summary available"
+  // TODO sections should still be used. if no summary is available show placeholder "No summary available"
   const [sectionSummaries, setSectionSummaries] = useState<
     { section: string; summary: string }[]
   >([]);

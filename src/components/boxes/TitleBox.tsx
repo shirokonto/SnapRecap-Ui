@@ -35,10 +35,15 @@ const TitleBox = ({ label, placeholder, type, onTextInput }: TitleBoxProps) => {
         size="small"
         type={type ?? 'text'}
         label={placeholder ?? 'Enter title'}
+        helperText={
+          type ? 'Edit the page on Confluence to find the Page ID' : ''
+        }
         onChange={(e) => onTextInput && onTextInput(e.target.value)}
         sx={{
-          backgroundColor: '#FFFFFF',
-          borderRadius: '4px',
+          '& .MuiInputBase-root': {
+            backgroundColor: '#FFFFFF',
+            borderRadius: '4px',
+          },
           marginLeft: '16px',
           flex: 1,
         }}

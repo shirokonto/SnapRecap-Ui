@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Box, Button, Grid2, Stack, Typography } from '@mui/material';
-import TitleBox from 'components/boxes/TitleBox';
-import IconButton from 'components/common/IconButton';
+import { Box, Button, Grid2, Typography } from '@mui/material';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import IconButton from 'components/common/IconButton';
+import ConfluenceSideTab from 'components/side-tabs/Export/ConfluenceSideTab';
+
 type ExportTabProps = {
   fileName: string;
   summary: string;
@@ -11,9 +12,19 @@ type ExportTabProps = {
 
 const ExportTab = ({ fileName, summary }: ExportTabProps) => {
   const [confluencePageId, setConfluencePageId] = useState('');
-  const [activeSideTab, setActiveSideTab] = useState<
-    'transcript' | 'summary' | 'screenshots' | null
-  >('transcript');
+  const [activeSideTab, setActiveSideTab] = useState<'confluence' | 'download'>(
+    'confluence',
+  );
+  const [activeUploadOption, setActiveUploadOption] = useState<
+    'update' | 'create'
+  >('update');
+  const mockContent = `<h1>This is a second test page</h1><p>This is a test page with py</p><img src="https://picsum.photos/200/300" alt="Example Image" />`;
+
+  const handleUploadToConfluence = async () => {
+    activeUploadOption === 'update'
+      ? await handleUpdateOnConfluence()
+      : await handleCreateNewOnConfluence();
+  };
 
   const handleCreateNewOnConfluence = async () => {
     if (!confluencePageId || confluencePageId === '') {
@@ -56,10 +67,7 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
     try {
       const formData = new FormData();
       formData.append('title', 'Update page test');
-      formData.append(
-        'content',
-        '<h1>This is a update test page</h1><p>This is an updated test page with py</p><p>Test Nr 4</p><img src="https://picsum.photos/200/300" alt="Example Image" />',
-      );
+      formData.append('content', mockContent);
       formData.append('page_id', confluencePageId);
 
       const response = await fetch('http://localhost:8000/updateonconfluence', {
@@ -108,72 +116,30 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
             <IconButton
               label="Confluence"
               icon={BackupOutlinedIcon}
-              onClick={() =>
-                setActiveSideTab(
-                  activeSideTab === 'transcript' ? null : 'transcript',
-                )
-              }
-              selected={activeSideTab === 'transcript'}
+              onClick={() => setActiveSideTab('confluence')}
+              selected={activeSideTab === 'confluence'}
             />
             <IconButton
-              label="Download PDF"
+              label="Download"
               icon={FileDownloadOutlinedIcon}
-              onClick={() =>
-                setActiveSideTab(activeSideTab === 'summary' ? null : 'summary')
-              }
-              selected={activeSideTab === 'summary'}
+              onClick={() => setActiveSideTab('download')}
+              selected={activeSideTab === 'download'}
             />
           </Box>
         </Grid2>
         <Grid2 size={8}>
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
             {/* Left Side */}
-            <Box sx={{ flex: 1 }}>
-              <Stack direction="column" spacing={2} alignItems="center">
-                {/* https://mui.com/material-ui/react-text-field/#type-quot-number-quot */}
-                <TitleBox
-                  label="Confluence Page ID:"
-                  placeholder={'Enter numeric page ID'}
-                  type="number"
-                  onTextInput={handlePageIdChange}
-                />
-                <div>
-                  You can find the page id when you edit the page on confluence
-                </div>
-                <Button
-                  onClick={handleUpdateOnConfluence}
-                  variant="contained"
-                  color="primary"
-                  disabled={!confluencePageId}
-                  sx={{
-                    textTransform: 'none',
-                    marginTop: 2,
-                    width: '80%',
-                    borderRadius: '10px',
-                  }}
-                >
-                  <Typography sx={{ color: 'white', fontSize: '17px' }}>
-                    Update on Given Page
-                  </Typography>
-                </Button>
-                <Button
-                  onClick={handleCreateNewOnConfluence}
-                  variant="contained"
-                  color="primary"
-                  disabled={!confluencePageId || confluencePageId === ''}
-                  sx={{
-                    textTransform: 'none',
-                    marginTop: 2,
-                    width: '80%',
-                    borderRadius: '10px',
-                  }}
-                >
-                  <Typography sx={{ color: 'white', fontSize: '17px' }}>
-                    Create New Under Parent ID
-                  </Typography>
-                </Button>
-              </Stack>
-            </Box>
+            {activeSideTab === 'confluence' && (
+              <ConfluenceSideTab
+                activeUploadOption={activeUploadOption}
+                setActiveUploadOption={setActiveUploadOption}
+                handlePageIdChange={handlePageIdChange}
+                handleUploadToConfluence={handleUploadToConfluence}
+                confluencePageId={confluencePageId}
+                mockContent={mockContent}
+              />
+            )}
             {/* Right Side */}
             <Box
               sx={{
@@ -183,7 +149,44 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
                 alignItems: 'center',
               }}
             >
-              <TitleBox label="Placeholder Document Preview:" />
+              <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                Page Preview
+              </Typography>
+              <Box
+                sx={{
+                  flex: 1,
+                  border: '1px solid #ccc',
+                  borderRadius: '5px',
+                  padding: 2,
+                  backgroundColor: '#fff',
+                  overflowY: 'auto',
+                  maxHeight: '80vh',
+                }}
+              >
+                <div
+                  dangerouslySetInnerHTML={{ __html: mockContent }}
+                  style={{
+                    padding: '10px',
+                    fontFamily: 'Arial, sans-serif',
+                    lineHeight: '1.6',
+                  }}
+                />
+              </Box>
+              <Button
+                onClick={() => console.log('Download button clicked')}
+                variant="contained"
+                color="primary"
+                sx={{
+                  textTransform: 'none',
+                  marginTop: 2,
+                  width: '80%',
+                  borderRadius: '10px',
+                }}
+              >
+                <Typography sx={{ color: 'white', fontSize: '17px' }}>
+                  Download Page as PDF / Word
+                </Typography>
+              </Button>
             </Box>
           </Box>
         </Grid2>

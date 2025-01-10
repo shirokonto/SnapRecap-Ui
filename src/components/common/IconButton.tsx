@@ -1,5 +1,5 @@
 import { SvgIconComponent } from '@mui/icons-material';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 interface IconButtonProps {

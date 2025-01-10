@@ -1,20 +1,10 @@
 import React, { useState, SyntheticEvent } from 'react';
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import CircularProgress from '@mui/material/CircularProgress';
-import ExportTab from 'components/tabs/ExportTab';
-import VerifyTab from 'components/tabs/VerifyTab';
-import UploadTab from 'components/tabs/UploadTab';
-import Typography from '@mui/material/Typography';
+import { Box, Tab, Typography, CircularProgress } from '@mui/material';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import ExportTab from 'components/tabs/Export/ExportTab';
+import VerifyTab from 'components/tabs/Verify/VerifyTab';
+import UploadTab from 'components/tabs/Upload/UploadTab';
 import { TranscriptionChunk } from 'types/transcription';
-import FontDownloadOutlinedIcon from '@mui/icons-material/FontDownloadOutlined';
-import ClosedCaptionOutlinedIcon from '@mui/icons-material/ClosedCaptionOutlined';
-import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import IconButton from 'components/common/IconButton';
-import { Grid2 } from '@mui/material';
 
 type Result = {
   file_name: string;
