@@ -130,9 +130,11 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
             {/* Left Side */}
             <Box sx={{ flex: 1 }}>
               <Stack direction="column" spacing={2} alignItems="center">
+                {/* https://mui.com/material-ui/react-text-field/#type-quot-number-quot */}
                 <TitleBox
                   label="Confluence Page ID:"
-                  placeholder={'Enter Confluence Page ID'}
+                  placeholder={'Enter numeric page ID'}
+                  type="number"
                   onTextInput={handlePageIdChange}
                 />
                 <div>
