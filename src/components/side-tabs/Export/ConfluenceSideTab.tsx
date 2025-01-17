@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import IconButton from 'components/common/IconButton';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
-import TitleBox from 'components/boxes/TitleBox';
+import InputFieldBox from 'components/boxes/InputFieldBox';
 
 type ConfluenceSideTabProps = {
   activeUploadOption: 'update' | 'create';
@@ -39,7 +39,7 @@ const ConfluenceSideTab = ({
           />
         </Stack>
         {/* https://mui.com/material-ui/react-text-field/#type-quot-number-quot */}
-        <TitleBox
+        <InputFieldBox
           label="Confluence Page ID:"
           placeholder={'Enter numeric page ID'}
           type="number"

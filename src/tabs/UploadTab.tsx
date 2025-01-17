@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, ChangeEvent } from 'react';
 import { Box, Button, Stack, Typography, Grid2 } from '@mui/material';
-import TitleBox from 'components/boxes/TitleBox';
+import InputFieldBox from 'components/boxes/InputFieldBox';
 import VideoBox from 'components/boxes/VideoBox';
 import SectionBox from 'components/boxes/SectionBox';
 import ImageBox from 'components/boxes/ImageBox';
@@ -59,7 +59,7 @@ const UploadTab = ({
             {/* Left Side */}
             <Box sx={{ flex: 1 }}>
               <Stack direction="column" spacing={2} alignItems="center">
-                <TitleBox
+                <InputFieldBox
                   label="Title:"
                   value={summaryTitle}
                   onTextInput={setSummaryTitle}

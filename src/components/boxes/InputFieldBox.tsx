@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-interface TitleBoxProps {
+interface InputFieldBoxProps {
   label: string;
   placeholder?: string;
   type?: 'number';
@@ -11,13 +11,13 @@ interface TitleBoxProps {
   onTextInput?: (pageId: string) => void;
 }
 
-const TitleBox = ({
+const InputFieldBox = ({
   label,
   placeholder,
   type,
-  value,
+  value = type === 'number' ? undefined : '',
   onTextInput,
-}: TitleBoxProps) => {
+}: InputFieldBoxProps) => {
   return (
     <Box
       sx={{
@@ -60,4 +60,4 @@ const TitleBox = ({
   );
 };
 
-export default TitleBox;
+export default InputFieldBox;
