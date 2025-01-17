@@ -13,7 +13,6 @@ const AppRouter = () => {
         <div style={{ paddingTop: '64px' }}>
           <Routes>
             <Route path="/" element={<VideoUploader />} />
-            {/* Add other routes here */}
           </Routes>
         </div>
       </div>
