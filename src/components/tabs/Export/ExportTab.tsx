@@ -172,21 +172,23 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
                   }}
                 />
               </Box>
-              <Button
-                onClick={() => console.log('Download button clicked')}
-                variant="contained"
-                color="primary"
-                sx={{
-                  textTransform: 'none',
-                  marginTop: 2,
-                  width: '80%',
-                  borderRadius: '10px',
-                }}
-              >
-                <Typography sx={{ color: 'white', fontSize: '17px' }}>
-                  Download Page as PDF / Word
-                </Typography>
-              </Button>
+              {activeSideTab === 'download' && (
+                <Button
+                  onClick={() => console.log('Download button clicked')}
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    textTransform: 'none',
+                    marginTop: 2,
+                    width: '80%',
+                    borderRadius: '10px',
+                  }}
+                >
+                  <Typography sx={{ color: 'white', fontSize: '17px' }}>
+                    Download Page as PDF / Word
+                  </Typography>
+                </Button>
+              )}
             </Box>
           </Box>
         </Grid2>

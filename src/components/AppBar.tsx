@@ -1,33 +1,33 @@
 import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import Box from '@mui/material/Box';
+import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 import logo from '../logo.svg';
 
 const AppHeader = () => {
-    return (
-        <AppBar position="static" color="primary">
-            <Toolbar>
-                {/* Logo */}
-                <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                    <Box component="img" src={logo} alt="Logo" sx={{ height: 40 }} />
-                </Typography>
+  return (
+    <AppBar position="static" color="primary">
+      <Toolbar>
+        {/* Logo */}
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          <Box component="img" src={logo} alt="Logo" sx={{ height: 40 }} />
+        </Typography>
 
-                {/* Profile Icon */}
-                <IconButton
-                    edge="end"
-                    color="inherit"
-                    aria-label="account"
-                    onClick={() => alert('Profile menu clicked')}
-                >
-                    <AccountCircle />
-                </IconButton>
-            </Toolbar>
-        </AppBar>
-    );
+        {/* Info Icon */}
+        <IconButton
+          edge="end"
+          color="inherit"
+          aria-label="account"
+          onClick={() =>
+            alert(
+              'Here the info should appear what is used in the back (e.g. whisper)',
+            )
+          }
+        >
+          <InfoIcon />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
+  );
 };
 
 export default AppHeader;
