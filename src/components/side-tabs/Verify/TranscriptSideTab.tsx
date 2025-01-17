@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 import TranscriptBox from 'components/boxes/TranscriptBox';
 import ImageBox from 'components/boxes/ImageBox';
-import { TranscriptionChunk } from 'src/types/transcription';
+import { TranscriptionChunk } from 'types/transcription';
 
 interface TranscriptSideTabProps {
   transcription: TranscriptionChunk[];

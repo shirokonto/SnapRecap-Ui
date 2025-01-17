@@ -1,9 +1,9 @@
 import React, { useState, SyntheticEvent } from 'react';
 import { Box, Tab, Typography, CircularProgress } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import ExportTab from 'components/tabs/Export/ExportTab';
-import VerifyTab from 'components/tabs/Verify/VerifyTab';
-import UploadTab from 'components/tabs/Upload/UploadTab';
+import ExportTab from 'tabs/Export/ExportTab';
+import VerifyTab from 'tabs/Verify/VerifyTab';
+import UploadTab from 'tabs/Upload/UploadTab';
 import { TranscriptionChunk } from 'types/transcription';
 
 type Result = {

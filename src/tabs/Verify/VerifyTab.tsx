@@ -3,7 +3,7 @@ import { Box, Grid2 } from '@mui/material';
 import ClosedCaptionOutlinedIcon from '@mui/icons-material/ClosedCaptionOutlined';
 import FontDownloadOutlinedIcon from '@mui/icons-material/FontDownloadOutlined';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import { TranscriptionChunk } from 'src/types/transcription';
+import { TranscriptionChunk } from 'types/transcription';
 import IconButton from 'components/common/IconButton';
 import SummarySideTab from 'components/side-tabs/Verify/SummarySideTab';
 import TranscriptSideTab from 'components/side-tabs/Verify/TranscriptSideTab';
