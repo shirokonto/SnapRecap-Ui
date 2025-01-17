@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Box,
   FormControl,
+  IconButton,
   InputLabel,
   List,
   ListItem,
@@ -11,21 +12,41 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
+  TextField,
   Typography,
 } from '@mui/material';
+import {
+  AddCircleOutlineOutlined,
+  AddTaskOutlined,
+  CancelOutlined,
+  ModeEdit,
+} from '@mui/icons-material';
+
+interface SummaryBoxProps {
+  summary: string;
+  sections: string[];
+  onEdit: (
+    index: number,
+    content: { section: string; summary: string },
+  ) => void;
+  onAddSection: (index: number, section: string) => void;
+}
 
 const SummaryBox = ({
   summary,
   sections,
-}: {
-  summary: string;
-  sections: string[];
-}) => {
+  onEdit,
+  onAddSection,
+}: SummaryBoxProps) => {
   // TODO sections should still be used. if no summary is available show placeholder "No summary available"
   const [sectionSummaries, setSectionSummaries] = useState<
     { section: string; summary: string }[]
   >([]);
   const [selectedSection, setSelectedSection] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
+  const [newSection, setNewSection] = useState('');
+  const [newSummary, setNewSummary] = useState('');
+  const [addIndex, setAddIndex] = useState<number | undefined>(undefined);
   const listRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   useEffect(() => {
@@ -55,6 +76,36 @@ const SummaryBox = ({
         behavior: 'smooth',
         block: 'center',
       });
+    }
+  };
+
+  const handleEditClick = (index: number) => {
+    onEdit(index, sectionSummaries[index]);
+  };
+
+  const handleAddClick = (index: number) => {
+    setIsAdding(true);
+    setAddIndex(index);
+    setNewSection('');
+    setNewSummary('');
+  };
+
+  const handleAddConfirm = () => {
+    if (newSection.trim() && addIndex !== undefined) {
+      onAddSection(addIndex + 1, newSection.trim());
+      setIsAdding(false);
+    }
+  };
+
+  const handleAddCancel = () => {
+    setIsAdding(false);
+    setNewSection('');
+    setNewSummary('');
+  };
+
+  const handleOutsideClick = () => {
+    if (!newSection.trim()) {
+      setIsAdding(false);
     }
   };
 
@@ -88,7 +139,7 @@ const SummaryBox = ({
             flex: 1,
           }}
         >
-          <InputLabel id="demo-simple-select-label">Jump to</InputLabel>
+          <InputLabel>Jump to</InputLabel>
           <Select
             value={selectedSection}
             label="Jump to Section"
@@ -117,20 +168,105 @@ const SummaryBox = ({
         {sectionSummaries.map((item, index) => (
           <li key={index}>
             <ul>
-              <ListSubheader>{`${item.section}`}</ListSubheader>
+              <ListSubheader
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderTopLeftRadius: '8px',
+                  borderTopRightRadius: '8px',
+                  backgroundColor:
+                    item.section === selectedSection ? '#f0f0f0' : '#fffff', // Highlight selected item
+                }}
+              >
+                {`${item.section}`}
+                <IconButton
+                  onClick={() => handleEditClick(index)}
+                  size="medium"
+                >
+                  <ModeEdit fontSize="medium" />
+                </IconButton>
+              </ListSubheader>
               <ListItem
                 ref={(el: HTMLLIElement | null) =>
                   (listRefs.current[index] = el)
                 } // Assign ref for scrolling
                 sx={{
                   backgroundColor:
-                    item.section === selectedSection ? '#f0f0f0' : 'inherit', // Highlight selected item
-                  borderRadius: '8px',
+                    item.section === selectedSection ? '#f0f0f0' : 'inherit',
+                  borderBottomLeftRadius: '8px',
+                  borderBottomRightRadius: '8px',
                 }}
               >
                 <ListItemText primary={item.summary} />
               </ListItem>
+              {isAdding && addIndex === index && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: '#D6E6FD',
+                    borderRadius: '8px',
+                    padding: '8px',
+                  }}
+                >
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    placeholder="New Section Title"
+                    value={newSection}
+                    onChange={(e) => setNewSection(e.target.value)}
+                    onBlur={handleOutsideClick}
+                    autoFocus={true}
+                    sx={{
+                      '& .MuiInputBase-root': {
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: '4px',
+                      },
+                      marginLeft: '8px',
+                      flex: 1,
+                    }}
+                  />
+                  <Box
+                    gap={1}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}
+                  >
+                    <IconButton
+                      onClick={handleAddConfirm}
+                      size="medium"
+                      color={'primary'}
+                    >
+                      <AddTaskOutlined fontSize="medium" />
+                    </IconButton>
+                    <IconButton
+                      onClick={handleAddCancel}
+                      size="medium"
+                      color={'error'}
+                    >
+                      <CancelOutlined fontSize="medium" />
+                    </IconButton>
+                  </Box>
+                </Box>
+              )}
             </ul>
+            {!isAdding && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#F8F9F9',
+                }}
+              >
+                <IconButton onClick={() => handleAddClick(index)} size="medium">
+                  <AddCircleOutlineOutlined fontSize="medium" />
+                </IconButton>
+              </Box>
+            )}
           </li>
         ))}
       </List>

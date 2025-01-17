@@ -117,7 +117,7 @@ const SectionsBox = ({
           alignItems: 'center',
           padding: '8px 20px',
           marginLeft: '16px',
-          backgroundColor: '#292D8D',
+          backgroundColor: 'primary',
           border: 'none',
           borderRadius: '10px',
           cursor: 'pointer',

@@ -13,10 +13,12 @@ const VerifyTab = ({
   transcription,
   summary,
   sections,
+  setSummary,
 }: {
   transcription: TranscriptionChunk[];
   summary: string;
   sections: string[];
+  setSummary: (newSummary: string) => void;
 }) => {
   const [activeSideTab, setActiveSideTab] = useState<
     'transcript' | 'summary' | 'screenshots' | null
@@ -67,7 +69,11 @@ const VerifyTab = ({
             />
           )}
           {activeSideTab === 'summary' && (
-            <SummarySideTab summary={summary} sections={sections} />
+            <SummarySideTab
+              summary={summary}
+              sections={sections}
+              setSummary={setSummary}
+            />
           )}
           {activeSideTab === 'screenshots' && <ScreenshotSideTab />}
         </Grid2>

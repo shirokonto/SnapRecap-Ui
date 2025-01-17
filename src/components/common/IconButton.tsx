@@ -21,7 +21,7 @@ const IconButton = ({
       onClick={onClick}
       sx={{
         backgroundColor: selected ? '#D6E6FD' : 'transparent',
-        color: selected ? '#292D8D' : '#A9A9A9',
+        color: selected ? 'primary' : '#A9A9A9',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -41,7 +41,7 @@ const IconButton = ({
         sx={{
           fontWeight: 'bold',
           marginTop: 1,
-          color: selected ? '#292D8D' : '#A9A9A9',
+          color: selected ? 'primary' : '#A9A9A9',
         }}
       >
         {label}

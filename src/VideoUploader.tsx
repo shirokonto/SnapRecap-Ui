@@ -46,7 +46,6 @@ const VideoUploader = () => {
         mode: 'cors',
       });
       const result: Result = await response.json();
-      console.log(result.transcription);
       setFileName(result.file_name);
       setTranscription(result.transcription);
       setSummary(result.summary);
@@ -118,6 +117,7 @@ const VideoUploader = () => {
               transcription={transcription}
               summary={summary}
               sections={sections}
+              setSummary={setSummary}
             />
           </TabPanel>
           <TabPanel value="3">
