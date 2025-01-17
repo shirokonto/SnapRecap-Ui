@@ -3,8 +3,8 @@ import { Box, Button, Typography } from '@mui/material';
 import { CloudUpload } from '@mui/icons-material';
 
 interface VideoBoxProps {
-  videoTitle: string | null;
-  setVideoTitle: Dispatch<SetStateAction<string | null>>;
+  videoTitle: string | undefined;
+  setVideoTitle: Dispatch<SetStateAction<string | undefined>>;
   onVideoChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 const VideoBox = ({

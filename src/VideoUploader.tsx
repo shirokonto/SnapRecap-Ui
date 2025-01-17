@@ -15,8 +15,11 @@ type Result = {
 const VideoUploader = () => {
   const [tab, setOpenedTab] = useState('1');
 
-  const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [videoTitle, setVideoTitle] = useState<string | null>(null);
+  const [videoFile, setVideoFile] = useState<File | undefined>(undefined);
+  const [videoTitle, setVideoTitle] = useState<string | undefined>(undefined);
+  const [summaryTitle, setSummaryTitle] = useState<string | undefined>(
+    undefined,
+  );
   const [sections, setSections] = useState<string[]>(['']);
   const [fileName, setFileName] = useState('');
   const [transcription, setTranscription] = useState<TranscriptionChunk[]>([]);
@@ -101,10 +104,12 @@ const VideoUploader = () => {
                 videoFile={videoFile}
                 setVideoFile={setVideoFile}
                 videoTitle={videoTitle}
+                summaryTitle={summaryTitle}
+                setSummaryTitle={setSummaryTitle}
+                handleGetSummary={handleGetSummary}
                 setVideoTitle={setVideoTitle}
                 sections={sections}
                 setSections={setSections}
-                handleGetSummary={handleGetSummary}
               />
             )}
           </TabPanel>

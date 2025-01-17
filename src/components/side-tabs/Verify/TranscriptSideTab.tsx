@@ -28,7 +28,7 @@ const TranscriptSideTab = ({
           alignItems: 'center',
         }}
       >
-        <ImageBox videoFile={null} />
+        <ImageBox videoFile={undefined} />
       </Box>
     </Box>
   );

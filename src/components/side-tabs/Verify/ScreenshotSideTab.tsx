@@ -22,7 +22,7 @@ const ScreenshotSideTab = () => {
           alignItems: 'center',
         }}
       >
-        <ImageBox videoFile={null} />
+        <ImageBox videoFile={undefined} />
       </Box>
     </Box>
   );

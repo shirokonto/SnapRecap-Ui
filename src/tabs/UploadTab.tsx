@@ -6,10 +6,12 @@ import SectionBox from 'components/boxes/SectionBox';
 import ImageBox from 'components/boxes/ImageBox';
 
 type UploadTabProps = {
-  videoFile: File | null;
-  setVideoFile: Dispatch<SetStateAction<File | null>>;
-  videoTitle: string | null;
-  setVideoTitle: Dispatch<SetStateAction<string | null>>;
+  videoFile: File | undefined;
+  setVideoFile: Dispatch<SetStateAction<File | undefined>>;
+  videoTitle: string | undefined;
+  setVideoTitle: Dispatch<SetStateAction<string | undefined>>;
+  summaryTitle: string | undefined;
+  setSummaryTitle: Dispatch<SetStateAction<string | undefined>>;
   sections: string[];
   setSections: Dispatch<SetStateAction<string[]>>;
   handleGetSummary: () => Promise<void>;
@@ -21,6 +23,8 @@ const UploadTab = ({
   videoTitle,
   setVideoTitle,
   sections,
+  summaryTitle,
+  setSummaryTitle,
   setSections,
   handleGetSummary,
 }: UploadTabProps) => {
@@ -55,7 +59,11 @@ const UploadTab = ({
             {/* Left Side */}
             <Box sx={{ flex: 1 }}>
               <Stack direction="column" spacing={2} alignItems="center">
-                <TitleBox label="Title:" />
+                <TitleBox
+                  label="Title:"
+                  value={summaryTitle}
+                  onTextInput={setSummaryTitle}
+                />
                 <VideoBox
                   onVideoChange={handleFileUpload}
                   videoTitle={videoTitle}

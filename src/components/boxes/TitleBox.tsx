@@ -7,10 +7,17 @@ interface TitleBoxProps {
   label: string;
   placeholder?: string;
   type?: 'number';
+  value?: string | undefined;
   onTextInput?: (pageId: string) => void;
 }
 
-const TitleBox = ({ label, placeholder, type, onTextInput }: TitleBoxProps) => {
+const TitleBox = ({
+  label,
+  placeholder,
+  type,
+  value,
+  onTextInput,
+}: TitleBoxProps) => {
   return (
     <Box
       sx={{
@@ -35,6 +42,7 @@ const TitleBox = ({ label, placeholder, type, onTextInput }: TitleBoxProps) => {
         size="small"
         type={type ?? 'text'}
         label={placeholder ?? 'Enter title'}
+        value={value}
         helperText={
           type ? 'Edit the page on Confluence to find the Page ID' : ''
         }

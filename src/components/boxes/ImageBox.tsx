@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-const ImageBox = ({ videoFile }: { videoFile: File | null }) => {
+const ImageBox = ({ videoFile }: { videoFile: File | undefined }) => {
   return (
     <Box
       sx={{
