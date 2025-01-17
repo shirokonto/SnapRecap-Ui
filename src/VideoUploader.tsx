@@ -118,6 +118,7 @@ const VideoUploader = () => {
               summary={summary}
               sections={sections}
               setSummary={setSummary}
+              videoFile={videoFile}
             />
           </TabPanel>
           <TabPanel value="3">

@@ -7,11 +7,13 @@ import { TranscriptionChunk } from 'types/transcription';
 interface TranscriptSideTabProps {
   transcription: TranscriptionChunk[];
   sections: string[];
+  videoFile: File | undefined;
 }
 
 const TranscriptSideTab = ({
   transcription,
   sections,
+  videoFile,
 }: TranscriptSideTabProps) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
@@ -28,7 +30,7 @@ const TranscriptSideTab = ({
           alignItems: 'center',
         }}
       >
-        <ImageBox videoFile={undefined} />
+        <ImageBox videoFile={videoFile} />
       </Box>
     </Box>
   );

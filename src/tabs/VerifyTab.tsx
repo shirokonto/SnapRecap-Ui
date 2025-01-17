@@ -14,15 +14,17 @@ const VerifyTab = ({
   summary,
   sections,
   setSummary,
+  videoFile,
 }: {
   transcription: TranscriptionChunk[];
   summary: string;
   sections: string[];
   setSummary: (newSummary: string) => void;
+  videoFile: File | undefined;
 }) => {
   const [activeSideTab, setActiveSideTab] = useState<
     'transcript' | 'summary' | 'screenshots' | null
-  >('transcript');
+  >('summary');
 
   return (
     <Box>
@@ -42,16 +44,16 @@ const VerifyTab = ({
             }}
           >
             <IconButton
-              label="Transcript"
-              icon={ClosedCaptionOutlinedIcon}
-              onClick={() => setActiveSideTab('transcript')}
-              selected={activeSideTab === 'transcript'}
-            />
-            <IconButton
               label="Summary"
               icon={FontDownloadOutlinedIcon}
               onClick={() => setActiveSideTab('summary')}
               selected={activeSideTab === 'summary'}
+            />
+            <IconButton
+              label="Transcript"
+              icon={ClosedCaptionOutlinedIcon}
+              onClick={() => setActiveSideTab('transcript')}
+              selected={activeSideTab === 'transcript'}
             />
             <IconButton
               label="Screenshots"
@@ -66,6 +68,7 @@ const VerifyTab = ({
             <TranscriptSideTab
               transcription={transcription}
               sections={sections}
+              videoFile={videoFile}
             />
           )}
           {activeSideTab === 'summary' && (
