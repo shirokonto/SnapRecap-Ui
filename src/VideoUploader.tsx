@@ -122,7 +122,7 @@ const VideoUploader = () => {
             />
           </TabPanel>
           <TabPanel value="3">
-            <ExportTab fileName={fileName} summary={summary} />
+            <ExportTab summaryTitle={summaryTitle} summary={summary} />
           </TabPanel>
         </TabContext>
       </Box>

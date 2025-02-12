@@ -6,11 +6,11 @@ import IconButton from 'components/common/IconButton';
 import ConfluenceSideTab from 'components/side-tabs/Export/ConfluenceSideTab';
 
 type ExportTabProps = {
-  fileName: string;
+  summaryTitle: string | undefined;
   summary: string;
 };
 
-const ExportTab = ({ fileName, summary }: ExportTabProps) => {
+const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
   const [confluencePageId, setConfluencePageId] = useState('');
   const [activeSideTab, setActiveSideTab] = useState<'confluence' | 'download'>(
     'confluence',
@@ -22,7 +22,7 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
   const [apiToken, setApiToken] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Snackbar
+  // Snackbar for responses
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
     'success',
@@ -46,8 +46,8 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
     try {
       const formData = new FormData();
       formData.append('parent_id', confluencePageId);
-      formData.append('title', 'Test Page with Confluence and Python'); // TODO replace: is mock data
-      formData.append('content', mockContent);
+      formData.append('title', summaryTitle ? summaryTitle : 'New summary');
+      formData.append('content', summary);
       formData.append('space_key', '~s0' + spaceKey); // Space Key starts with ~s0 in URL
       formData.append('api_token', apiToken);
 
@@ -86,7 +86,7 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
     try {
       const formData = new FormData();
       formData.append('title', '');
-      formData.append('content', mockContent);
+      formData.append('content', summary);
       formData.append('page_id', confluencePageId);
       formData.append('space_key', '~s0' + spaceKey); // Space Key starts with ~s0 in URL
       formData.append('api_token', apiToken);
@@ -181,7 +181,7 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
               }}
             >
               <Typography variant="h6" sx={{ marginBottom: 2 }}>
-                Page Preview
+                Page Preview: {summaryTitle ? summaryTitle : 'New summary'}
               </Typography>
               <Box
                 sx={{
@@ -195,7 +195,7 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
                 }}
               >
                 <div
-                  dangerouslySetInnerHTML={{ __html: mockContent }}
+                  dangerouslySetInnerHTML={{ __html: summary }}
                   style={{
                     padding: '10px',
                     fontFamily: 'Arial, sans-serif',
