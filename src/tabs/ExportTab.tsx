@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Grid2, Typography } from '@mui/material';
+import { Alert, Box, Button, Grid2, Snackbar, Typography } from '@mui/material';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import IconButton from 'components/common/IconButton';
@@ -18,7 +18,18 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
   const [activeUploadOption, setActiveUploadOption] = useState<
     'update' | 'create'
   >('update');
-  const mockContent = `<h1>This is a second test page</h1><p>This is a test page with py</p><img src="https://picsum.photos/200/300" alt="Example Image" />`;
+  const [spaceKey, setSpaceKey] = useState('');
+  const [apiToken, setApiToken] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
+    'success',
+  );
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const mockContent = `<h1>This is a new test page</h1><p>This is the last test with mock data</p><img src="https://picsum.photos/200/300" alt="Example Image" />`;
 
   const handleUploadToConfluence = async () => {
     activeUploadOption === 'update'
@@ -35,11 +46,10 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
     try {
       const formData = new FormData();
       formData.append('parent_id', confluencePageId);
-      formData.append('title', 'Test Page Py');
-      formData.append(
-        'content',
-        `<h1>This is a second test page</h1><p>This is a test page with py</p><img src="https://picsum.photos/200/300" alt="Example Image" />`,
-      );
+      formData.append('title', 'Test Page with Confluence and Python'); // TODO replace: is mock data
+      formData.append('content', mockContent);
+      formData.append('space_key', '~s0' + spaceKey); // Space Key starts with ~s0 in URL
+      formData.append('api_token', apiToken);
 
       const response = await fetch('http://localhost:8000/postonconfluence', {
         method: 'POST',
@@ -49,13 +59,21 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
 
       if (response.ok) {
         const result = await response.json();
-        console.log('Page created successfully:', result);
+        console.log('Failed to create page:', result);
+        setSnackbarMessage('Upload successful');
+        setSnackbarSeverity('success');
       } else {
         const errorText = await response.text();
         console.error('Failed to create page:', response.status, errorText);
+        setSnackbarMessage(`Error: ${errorText}`);
+        setSnackbarSeverity('error');
       }
-    } catch (error) {
-      console.error('Error while creating page:', error);
+    } catch (error: any) {
+      setSnackbarMessage(`Error: ${error.message}`);
+      setSnackbarSeverity('error');
+    } finally {
+      setSnackbarOpen(true);
+      setIsLoading(false);
     }
   };
 
@@ -64,11 +82,14 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
       console.error('Parent page ID is not set');
       return;
     }
+    setIsLoading(true);
     try {
       const formData = new FormData();
-      formData.append('title', 'Update page test');
+      formData.append('title', '');
       formData.append('content', mockContent);
       formData.append('page_id', confluencePageId);
+      formData.append('space_key', '~s0' + spaceKey); // Space Key starts with ~s0 in URL
+      formData.append('api_token', apiToken);
 
       const response = await fetch('http://localhost:8000/updateonconfluence', {
         method: 'PUT',
@@ -79,21 +100,27 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
       if (response.ok) {
         const result = await response.json();
         console.log('Page updated successfully:', result);
+        setSnackbarMessage('Page updated successfully');
+        setSnackbarSeverity('success');
       } else {
         const errorText = await response.text();
         console.error('Failed to update page:', response.status, errorText);
+        setSnackbarMessage(`Error: ${errorText}`);
+        setSnackbarSeverity('error');
       }
-    } catch (error) {
+      setSnackbarOpen(true);
+    } catch (error: any) {
       console.error('Error while updating page:', error);
+      setSnackbarMessage(`Error: ${error.message}`);
+      setSnackbarSeverity('error');
+    } finally {
+      setSnackbarOpen(true);
+      setIsLoading(false);
     }
   };
 
   const handlePageIdChange = (pageId: string) => {
-    if (pageId) {
-      setConfluencePageId(pageId);
-    } else {
-      setConfluencePageId('');
-    }
+    setConfluencePageId(pageId);
   };
 
   return (
@@ -137,7 +164,11 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
                 handlePageIdChange={handlePageIdChange}
                 handleUploadToConfluence={handleUploadToConfluence}
                 confluencePageId={confluencePageId}
-                mockContent={mockContent}
+                spaceKey={spaceKey}
+                setSpaceKey={setSpaceKey}
+                apiToken={apiToken}
+                setUserApiToken={setApiToken}
+                isLoading={isLoading}
               />
             )}
             {/* Right Side */}
@@ -194,6 +225,20 @@ const ExportTab = ({ fileName, summary }: ExportTabProps) => {
         </Grid2>
         <Grid2 size={1} />
       </Grid2>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

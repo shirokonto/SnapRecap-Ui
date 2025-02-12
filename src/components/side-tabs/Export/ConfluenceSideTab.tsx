@@ -1,5 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material';
 import IconButton from 'components/common/IconButton';
 import PublishedWithChangesOutlinedIcon from '@mui/icons-material/PublishedWithChangesOutlined';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
@@ -9,9 +15,13 @@ type ConfluenceSideTabProps = {
   activeUploadOption: 'update' | 'create';
   setActiveUploadOption: Dispatch<SetStateAction<'update' | 'create'>>;
   handlePageIdChange: (pageId: string) => void;
-  handleUploadToConfluence: () => {};
+  handleUploadToConfluence: () => void;
   confluencePageId: string;
-  mockContent: string;
+  spaceKey: string;
+  setSpaceKey: Dispatch<SetStateAction<string>>;
+  apiToken: string;
+  setUserApiToken: Dispatch<SetStateAction<string>>;
+  isLoading?: boolean;
 };
 
 const ConfluenceSideTab = ({
@@ -20,6 +30,11 @@ const ConfluenceSideTab = ({
   handlePageIdChange,
   handleUploadToConfluence,
   confluencePageId,
+  spaceKey,
+  setSpaceKey,
+  apiToken,
+  setUserApiToken,
+  isLoading = false,
 }: ConfluenceSideTabProps) => {
   return (
     <Box sx={{ flex: 1 }}>
@@ -45,14 +60,29 @@ const ConfluenceSideTab = ({
           type="number"
           onTextInput={handlePageIdChange}
         />
-        <div>
-          Needed: email+pw to login? then get token, base url, spacekey, token
-        </div>
+        <InputFieldBox
+          label="Space-Key:"
+          placeholder="Type in your matrikel nr"
+          value={spaceKey}
+          onTextInput={setSpaceKey}
+        />
+        <InputFieldBox
+          label="API Token:"
+          placeholder="Your API Token"
+          value={apiToken}
+          onTextInput={setUserApiToken}
+        />
         <Button
           onClick={handleUploadToConfluence}
           variant="contained"
           color="primary"
-          disabled={!confluencePageId || confluencePageId === ''}
+          disabled={
+            !confluencePageId ||
+            confluencePageId === '' ||
+            !spaceKey ||
+            !apiToken ||
+            isLoading
+          }
           sx={{
             textTransform: 'none',
             marginTop: 2,
@@ -60,9 +90,13 @@ const ConfluenceSideTab = ({
             borderRadius: '10px',
           }}
         >
-          <Typography sx={{ color: 'white', fontSize: '17px' }}>
-            Upload to Confluence
-          </Typography>
+          {isLoading ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            <Typography sx={{ color: 'white', fontSize: '17px' }}>
+              Upload to Confluence
+            </Typography>
+          )}
         </Button>
       </Stack>
     </Box>

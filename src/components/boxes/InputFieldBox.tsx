@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 interface InputFieldBoxProps {
   label: string;
   placeholder?: string;
-  type?: 'number';
+  type?: 'text' | 'number';
   value?: string | undefined;
   onTextInput?: (pageId: string) => void;
 }
@@ -14,7 +14,7 @@ interface InputFieldBoxProps {
 const InputFieldBox = ({
   label,
   placeholder,
-  type,
+  type = 'text',
   value = type === 'number' ? undefined : '',
   onTextInput,
 }: InputFieldBoxProps) => {
@@ -40,11 +40,13 @@ const InputFieldBox = ({
       <TextField
         variant="outlined"
         size="small"
-        type={type ?? 'text'}
+        type={type}
         label={placeholder ?? 'Enter title'}
         value={value}
         helperText={
-          type ? 'Edit the page on Confluence to find the Page ID' : ''
+          type === 'number'
+            ? 'Edit the page on Confluence to find the Page ID'
+            : ''
         }
         onChange={(e) => onTextInput && onTextInput(e.target.value)}
         sx={{
