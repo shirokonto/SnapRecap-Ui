@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, ChangeEvent } from 'react';
 import { Box, Button, Stack, Typography, Grid2 } from '@mui/material';
 import InputFieldBox from 'components/boxes/InputFieldBox';
-import VideoBox from 'components/boxes/VideoBox';
+import VideoUploadBox from 'components/boxes/VideoUploadBox';
 import SectionBox from 'components/boxes/SectionBox';
 import ImageBox from 'components/boxes/ImageBox';
 
@@ -64,7 +64,7 @@ const UploadTab = ({
                   value={summaryTitle}
                   onTextInput={setSummaryTitle}
                 />
-                <VideoBox
+                <VideoUploadBox
                   onVideoChange={handleFileUpload}
                   videoTitle={videoTitle}
                   setVideoTitle={setVideoTitle}

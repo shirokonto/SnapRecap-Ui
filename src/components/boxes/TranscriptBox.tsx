@@ -1,30 +1,13 @@
-import { useState } from 'react';
-import {
-  Box,
-  MenuItem,
-  InputLabel,
-  FormControl,
-  Select,
-  SelectChangeEvent,
-  Typography,
-  TextField,
-  Stack,
-} from '@mui/material';
+import { Box, Typography, TextField, Stack } from '@mui/material';
 import { TranscriptionChunk } from 'types/transcription';
+import { parseTimestamp } from 'utils/TimestampParsingUtil';
 
-const TranscriptBox = ({
-  transcription,
-  sections,
-}: {
+interface TranscriptBoxProps {
   transcription: TranscriptionChunk[];
-  sections: string[];
-}) => {
-  const [section, setSelectedSection] = useState('');
+  onJumpTo: (timestamp: number) => void;
+}
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setSelectedSection(event.target.value as string);
-  };
-
+const TranscriptBox = ({ transcription, onJumpTo }: TranscriptBoxProps) => {
   return (
     <Stack
       spacing={2}
@@ -42,38 +25,16 @@ const TranscriptBox = ({
           width: '100%',
         }}
       >
-        {/* Text on the Left */}
+        {/* Full view transcription */}
         <Typography variant="h6" sx={{ color: '#555555', fontWeight: 'bold' }}>
           Transcription:
         </Typography>
-        {/* Jump to Section Dropdown on the Right */}
-        <FormControl
-          sx={{
-            backgroundColor: '#FFFFFF',
-            borderRadius: '4px',
-            marginLeft: '16px',
-            flex: 1,
-          }}
-        >
-          <InputLabel id="demo-simple-select-label">Jump to</InputLabel>
-          <Select
-            value={section}
-            label="Jump to Section"
-            onChange={handleChange}
-          >
-            {sections.map((section, index) => (
-              <MenuItem key={index} value={section}>
-                {section}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
       </Box>
       <Typography
         variant="body2"
         sx={{ color: '#555555', fontWeight: 'light' }}
       >
-        Click on any word below to edit.
+        Click on any time stamp or word below to jump to the part of the video.
       </Typography>
       {/* Transcription Field with Scrollbar */}
       <Box
@@ -99,14 +60,17 @@ const TranscriptBox = ({
                 fontWeight: 'bold',
                 marginBottom: '4px',
               }}
+              onClick={() => onJumpTo(parseTimestamp(chunk.start_time))}
             >
               {`[${chunk.start_time} - ${chunk.end_time}]`}
             </Typography>
             <TextField
               variant="standard"
               multiline
+              contentEditable={false}
               value={chunk.text}
               fullWidth
+              onClick={() => onJumpTo(parseTimestamp(chunk.start_time))}
               InputProps={{
                 disableUnderline: true, // Disable the underline
               }}

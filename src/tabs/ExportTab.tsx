@@ -29,7 +29,7 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
   );
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const mockContent = `<h1>This is a new test page</h1><p>This is the last test with mock data</p><img src="https://picsum.photos/200/300" alt="Example Image" />`;
+  //const mockContent = `<h1>This is a new test page</h1><p>This is the last test with mock data</p><img src="https://picsum.photos/200/300" alt="Example Image" />`;
 
   const handleUploadToConfluence = async () => {
     activeUploadOption === 'update'
@@ -125,20 +125,13 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
 
   return (
     <Box>
-      <Grid2
-        container
-        spacing={2}
-        marginX={8}
-        sx={{ justifyContent: 'center' }}
-      >
+      <Grid2 container spacing={2} marginX={8} justifyContent={'center'}>
         <Grid2 size={1}>
           <Box
             id="iconbutton-list-container"
             gap={2}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-            }}
+            display={'flex'}
+            flexDirection={'column'}
           >
             <IconButton
               label="Confluence"
@@ -155,7 +148,7 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
           </Box>
         </Grid2>
         <Grid2 size={8}>
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
+          <Box display={'flex'} flexDirection={'row'} gap={2}>
             {/* Left Side */}
             {activeSideTab === 'confluence' && (
               <ConfluenceSideTab
@@ -173,22 +166,25 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
             )}
             {/* Right Side */}
             <Box
-              sx={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
+              flex={1}
+              display={'flex'}
+              flexDirection={'column'}
+              alignItems={'center'}
             >
-              <Typography variant="h6" sx={{ marginBottom: 2 }}>
+              <Typography
+                variant="h5"
+                marginBottom={2}
+                color={'#3f3f3f'}
+                fontWeight={'bold'}
+              >
                 Page Preview: {summaryTitle ? summaryTitle : 'New summary'}
               </Typography>
               <Box
+                flex={1}
+                border={'1px solid #ccc'}
+                borderRadius={'5px'}
+                padding={2}
                 sx={{
-                  flex: 1,
-                  border: '1px solid #ccc',
-                  borderRadius: '5px',
-                  padding: 2,
                   backgroundColor: '#fff',
                   overflowY: 'auto',
                   maxHeight: '80vh',

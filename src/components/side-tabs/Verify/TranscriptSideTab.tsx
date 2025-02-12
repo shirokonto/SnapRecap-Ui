@@ -1,25 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import TranscriptBox from 'components/boxes/TranscriptBox';
-import ImageBox from 'components/boxes/ImageBox';
+import VideoBox from 'components/boxes/VideoBox';
 import { TranscriptionChunk } from 'types/transcription';
 
 interface TranscriptSideTabProps {
   transcription: TranscriptionChunk[];
-  sections: string[];
   videoFile: File | undefined;
 }
 
 const TranscriptSideTab = ({
   transcription,
-  sections,
   videoFile,
 }: TranscriptSideTabProps) => {
+  const [jumpTimestamp, setJumpTimestamp] = useState<number | null>(null);
+
+  const handleJumpTo = (timestamp: number) => {
+    console.log('Jumping to timestamp:', timestamp);
+    setJumpTimestamp(timestamp);
+  };
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
       {/* Left Side */}
       <Box sx={{ flex: 1 }}>
-        <TranscriptBox transcription={transcription} sections={sections} />
+        <TranscriptBox transcription={transcription} onJumpTo={handleJumpTo} />
       </Box>
       {/* Right Side */}
       <Box
@@ -30,7 +35,7 @@ const TranscriptSideTab = ({
           alignItems: 'center',
         }}
       >
-        <ImageBox videoFile={videoFile} />
+        <VideoBox videoFile={videoFile} jumpTo={jumpTimestamp} />
       </Box>
     </Box>
   );

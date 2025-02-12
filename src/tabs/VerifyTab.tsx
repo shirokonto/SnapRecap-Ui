@@ -67,7 +67,6 @@ const VerifyTab = ({
           {activeSideTab === 'transcript' && (
             <TranscriptSideTab
               transcription={transcription}
-              sections={sections}
               videoFile={videoFile}
             />
           )}
