@@ -30,7 +30,7 @@ const VideoUploader = () => {
     setOpenedTab(tabToOpen);
   };
 
-  const handleGetSummary = async () => {
+  const handleGenerateSummary = async () => {
     if (!videoFile) return;
 
     setIsLoading(true);
@@ -105,7 +105,7 @@ const VideoUploader = () => {
                 videoTitle={videoTitle}
                 summaryTitle={summaryTitle}
                 setSummaryTitle={setSummaryTitle}
-                handleGetSummary={handleGetSummary}
+                handleGenerateSummary={handleGenerateSummary}
                 setVideoTitle={setVideoTitle}
                 sections={sections}
                 setSections={setSections}

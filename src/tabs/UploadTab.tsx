@@ -14,7 +14,7 @@ type UploadTabProps = {
   setSummaryTitle: Dispatch<SetStateAction<string | undefined>>;
   sections: string[];
   setSections: Dispatch<SetStateAction<string[]>>;
-  handleGetSummary: () => Promise<void>;
+  handleGenerateSummary: () => Promise<void>;
 };
 
 const UploadTab = ({
@@ -26,7 +26,7 @@ const UploadTab = ({
   summaryTitle,
   setSummaryTitle,
   setSections,
-  handleGetSummary,
+  handleGenerateSummary,
 }: UploadTabProps) => {
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -89,7 +89,7 @@ const UploadTab = ({
             >
               <ImageBox videoFile={videoFile} />
               <Button
-                onClick={handleGetSummary}
+                onClick={handleGenerateSummary}
                 variant="contained"
                 color="primary"
                 disabled={!videoFile}
