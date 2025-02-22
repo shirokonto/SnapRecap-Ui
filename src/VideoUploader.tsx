@@ -39,7 +39,7 @@ const VideoUploader = () => {
     formData.append('sections', JSON.stringify(sections));
 
     try {
-      const response = await fetch('http://localhost:8000/transcribe', {
+      const response = await fetch('http://localhost:8000/summarize', {
         method: 'POST',
         body: formData,
         mode: 'cors',

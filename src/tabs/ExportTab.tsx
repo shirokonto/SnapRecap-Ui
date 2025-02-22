@@ -40,6 +40,9 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
   const handleCreateNewOnConfluence = async () => {
     if (!confluencePageId || confluencePageId === '') {
       console.error('Parent page ID is not set');
+      setSnackbarMessage('Set a Parent Page ID');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
       return;
     }
 
@@ -51,7 +54,7 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
       formData.append('space_key', '~s0' + spaceKey); // Space Key starts with ~s0 in URL
       formData.append('api_token', apiToken);
 
-      const response = await fetch('http://localhost:8000/postonconfluence', {
+      const response = await fetch('http://localhost:8000/post_to_confluence', {
         method: 'POST',
         body: formData,
         mode: 'cors',
@@ -79,7 +82,10 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
 
   const handleUpdateOnConfluence = async () => {
     if (!confluencePageId || confluencePageId === '') {
-      console.error('Parent page ID is not set');
+      console.error('Page ID is not set');
+      setSnackbarMessage('Set a Page ID');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
       return;
     }
     setIsLoading(true);
@@ -91,11 +97,14 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
       formData.append('space_key', '~s0' + spaceKey); // Space Key starts with ~s0 in URL
       formData.append('api_token', apiToken);
 
-      const response = await fetch('http://localhost:8000/updateonconfluence', {
-        method: 'PUT',
-        body: formData,
-        mode: 'cors',
-      });
+      const response = await fetch(
+        'http://localhost:8000/update_on_confluence',
+        {
+          method: 'PUT',
+          body: formData,
+          mode: 'cors',
+        },
+      );
 
       if (response.ok) {
         const result = await response.json();
