@@ -26,7 +26,6 @@ const SummarySwitch = ({ onChange, isChecked }: SummarySwitchProps) => {
               checked={isChecked}
               onChange={onChange}
               sx={{ m: 1, fontWeight: 'light' }}
-              defaultChecked
             />
           }
           label="Sections"
