@@ -21,7 +21,6 @@ const VideoUploader = () => {
     undefined,
   );
   const [sections, setSections] = useState<string[]>(['']);
-  const [fileName, setFileName] = useState('');
   const [transcription, setTranscription] = useState<TranscriptionChunk[]>([]);
   const [summary, setSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +45,6 @@ const VideoUploader = () => {
         mode: 'cors',
       });
       const result: Result = await response.json();
-      setFileName(result.file_name);
       setTranscription(result.transcription);
       setSummary(result.summary);
       setOpenedTab('2'); // Switch to Verify tab

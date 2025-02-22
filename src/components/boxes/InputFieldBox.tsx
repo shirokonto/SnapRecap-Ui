@@ -48,6 +48,7 @@ const InputFieldBox = ({
             ? 'Edit the page on Confluence to find the Page ID'
             : ''
         }
+        required={true}
         onChange={(e) => onTextInput && onTextInput(e.target.value)}
         sx={{
           '& .MuiInputBase-root': {

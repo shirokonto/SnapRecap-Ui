@@ -92,7 +92,7 @@ const UploadTab = ({
                 onClick={handleGenerateSummary}
                 variant="contained"
                 color="primary"
-                disabled={!videoFile}
+                disabled={!videoFile || !summaryTitle}
                 sx={{
                   textTransform: 'none',
                   marginTop: 2,

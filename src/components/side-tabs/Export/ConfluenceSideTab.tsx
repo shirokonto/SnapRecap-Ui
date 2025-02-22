@@ -41,13 +41,13 @@ const ConfluenceSideTab = ({
       <Stack direction="column" spacing={2} alignItems="center">
         <Stack sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
           <IconButton
-            label={'Update on page'}
+            label={'Update on Page'}
             icon={PublishedWithChangesOutlinedIcon}
             onClick={() => setActiveUploadOption('update')}
             selected={activeUploadOption === 'update'}
           />
           <IconButton
-            label={'Create new child'}
+            label={'Create new Subpage'}
             icon={NoteAddOutlinedIcon}
             onClick={() => setActiveUploadOption('create')}
             selected={activeUploadOption === 'create'}
@@ -56,19 +56,19 @@ const ConfluenceSideTab = ({
         {/* https://mui.com/material-ui/react-text-field/#type-quot-number-quot */}
         <InputFieldBox
           label="Confluence Page ID:"
-          placeholder={'Enter numeric page ID'}
+          placeholder={'Numeric ID of Page'}
           type="number"
           onTextInput={handlePageIdChange}
         />
         <InputFieldBox
-          label="Space-Key:"
-          placeholder="Type in your matrikel nr"
+          label="Space Key:"
+          placeholder="Matrikel Nr. or Personal Space Key"
           value={spaceKey}
           onTextInput={setSpaceKey}
         />
         <InputFieldBox
           label="API Token:"
-          placeholder="Your API Token"
+          placeholder=" Personal API Token"
           value={apiToken}
           onTextInput={setUserApiToken}
         />
