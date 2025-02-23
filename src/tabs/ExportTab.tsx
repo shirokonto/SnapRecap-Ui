@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import html2pdf from 'html2pdf.js';
 import { Alert, Box, Button, Grid2, Snackbar, Typography } from '@mui/material';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
@@ -29,7 +30,31 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
   );
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  //const mockContent = `<h1>This is a new test page</h1><p>This is the last test with mock data</p><img src="https://picsum.photos/200/300" alt="Example Image" />`;
+  const handlePDFDownload = () => {
+    // https://github.com/eKoopmans/html2pdf.js
+
+    const element = document.getElementById('summary-to-print');
+
+    if (!summary || !element) {
+      console.error('No summary to download');
+      setSnackbarMessage('No summary to download');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
+    const fileTitle = summaryTitle ? summaryTitle : 'New summary';
+
+    // PDF options
+    const opt = {
+      margin: 10,
+      filename: `${fileTitle}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    };
+
+    html2pdf().from(element).set(opt).save();
+  };
 
   const handleUploadToConfluence = async () => {
     activeUploadOption === 'update'
@@ -200,6 +225,7 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
                 }}
               >
                 <div
+                  id={'summary-to-print'}
                   dangerouslySetInnerHTML={{ __html: summary }}
                   style={{
                     padding: '10px',
@@ -210,7 +236,7 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
               </Box>
               {activeSideTab === 'download' && (
                 <Button
-                  onClick={() => console.log('Download button clicked')}
+                  onClick={handlePDFDownload}
                   variant="contained"
                   color="primary"
                   sx={{
@@ -221,7 +247,7 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
                   }}
                 >
                   <Typography sx={{ color: 'white', fontSize: '17px' }}>
-                    Download Page as PDF / Word
+                    Download Page as PDF
                   </Typography>
                 </Button>
               )}
