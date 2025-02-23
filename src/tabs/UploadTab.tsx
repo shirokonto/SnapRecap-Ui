@@ -14,6 +14,8 @@ type UploadTabProps = {
   setSummaryTitle: Dispatch<SetStateAction<string | undefined>>;
   sections: string[];
   setSections: Dispatch<SetStateAction<string[]>>;
+  summarizeWithSections: boolean;
+  setSummarizeWithSections: Dispatch<SetStateAction<boolean>>;
   handleGenerateSummary: () => Promise<void>;
 };
 
@@ -26,6 +28,8 @@ const UploadTab = ({
   summaryTitle,
   setSummaryTitle,
   setSections,
+  summarizeWithSections,
+  setSummarizeWithSections,
   handleGenerateSummary,
 }: UploadTabProps) => {
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
@@ -72,6 +76,8 @@ const UploadTab = ({
                 <SectionBox
                   sections={sections}
                   onSectionChange={handleSectionChange}
+                  summarizeWithSections={summarizeWithSections}
+                  setSummarizeWithSections={setSummarizeWithSections}
                   onAddSection={addSection}
                   onDeleteSection={deleteSection}
                   setTestingSections={setSections}

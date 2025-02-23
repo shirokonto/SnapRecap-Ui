@@ -7,6 +7,8 @@ import SummarySwitch from 'components/common/SummarySwitch';
 
 interface SectionsBoxProps {
   sections: string[];
+  summarizeWithSections: boolean;
+  setSummarizeWithSections: Dispatch<SetStateAction<boolean>>;
   onSectionChange: (index: number, value: string) => void;
   onAddSection: () => void;
   onDeleteSection: (index: number) => void;
@@ -15,14 +17,15 @@ interface SectionsBoxProps {
 
 const SectionsBox = ({
   sections,
+  summarizeWithSections,
+  setSummarizeWithSections,
   onSectionChange,
   onAddSection,
   onDeleteSection,
   setTestingSections,
 }: SectionsBoxProps) => {
-  const [isSectionsChecked, setIsSectionsChecked] = useState(false);
   const handleSwitchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsSectionsChecked(event.target.checked);
+    setSummarizeWithSections(event.target.checked);
   };
   return (
     <Box
@@ -43,10 +46,10 @@ const SectionsBox = ({
         Summarization Type:
       </Typography>
       <SummarySwitch
-        isChecked={isSectionsChecked}
+        isChecked={summarizeWithSections}
         onChange={handleSwitchChange}
       />
-      {isSectionsChecked && (
+      {summarizeWithSections && (
         <>
           <Typography
             variant="h6"

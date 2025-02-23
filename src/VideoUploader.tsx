@@ -20,9 +20,12 @@ const VideoUploader = () => {
   const [summaryTitle, setSummaryTitle] = useState<string | undefined>(
     undefined,
   );
-  const [sections, setSections] = useState<string[]>(['']);
   const [transcription, setTranscription] = useState<TranscriptionChunk[]>([]);
+
+  const [sections, setSections] = useState<string[]>(['']);
+  const [summarizeWithSections, setSummarizeWithSections] = useState(false);
   const [summary, setSummary] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleTabChange = (event: SyntheticEvent, tabToOpen: string) => {
@@ -36,7 +39,8 @@ const VideoUploader = () => {
 
     const formData = new FormData();
     formData.append('file', videoFile);
-    formData.append('sections', JSON.stringify(sections));
+    const sectionsToSummarize = summarizeWithSections ? sections : [''];
+    formData.append('sections', JSON.stringify(sectionsToSummarize));
 
     try {
       const response = await fetch('http://localhost:8000/summarize', {
@@ -106,6 +110,8 @@ const VideoUploader = () => {
                 handleGenerateSummary={handleGenerateSummary}
                 setVideoTitle={setVideoTitle}
                 sections={sections}
+                summarizeWithSections={summarizeWithSections}
+                setSummarizeWithSections={setSummarizeWithSections}
                 setSections={setSections}
               />
             )}
