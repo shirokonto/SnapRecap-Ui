@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import html2pdf from 'html2pdf.js';
-import { Alert, Box, Button, Grid2, Snackbar, Typography } from '@mui/material';
+import { Box, Button, Grid2, Typography } from '@mui/material';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import IconButton from 'components/common/IconButton';
 import ConfluenceSideTab from 'components/side-tabs/Export/ConfluenceSideTab';
+import SnackBar from '../components/common/SnackBar';
 
 type ExportTabProps = {
   summaryTitle: string | undefined;
@@ -256,20 +257,12 @@ const ExportTab = ({ summaryTitle, summary }: ExportTabProps) => {
         </Grid2>
         <Grid2 size={1} />
       </Grid2>
-      <Snackbar
+      <SnackBar
         open={snackbarOpen}
-        autoHideDuration={6000}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
         onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-          sx={{ width: '100%' }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      />
     </Box>
   );
 };

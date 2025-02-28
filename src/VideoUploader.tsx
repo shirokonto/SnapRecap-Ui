@@ -5,6 +5,7 @@ import ExportTab from 'tabs/ExportTab';
 import VerifyTab from 'tabs/VerifyTab';
 import UploadTab from 'tabs/UploadTab';
 import { TranscriptionChunk } from 'types/transcription';
+import SnackBar from './components/common/SnackBar';
 
 type Result = {
   file_name: string;
@@ -28,7 +29,21 @@ const VideoUploader = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  // Snackbar for responses
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    'success' | 'error' | 'info'
+  >('success');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
   const handleTabChange = (event: SyntheticEvent, tabToOpen: string) => {
+    if (!summary && (tabToOpen === '2' || tabToOpen === '3')) {
+      console.error('First generate a summary');
+      setSnackbarMessage('Generate a summary first');
+      setSnackbarSeverity('info');
+      setSnackbarOpen(true);
+      return;
+    }
     setOpenedTab(tabToOpen);
   };
 
@@ -54,6 +69,9 @@ const VideoUploader = () => {
       setOpenedTab('2'); // Switch to Verify tab
     } catch (error) {
       console.error('Error uploading video:', error);
+      setSnackbarMessage(`Error uploading video ${error}`);
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
     } finally {
       setIsLoading(false);
     }
@@ -88,7 +106,6 @@ const VideoUploader = () => {
           </Box>
           {/* tab-panels */}
           <TabPanel value="1">
-            {/* TODO replace CircularProgress with MUI Skeleton? */}
             {isLoading ? (
               <Box
                 sx={{
@@ -130,6 +147,12 @@ const VideoUploader = () => {
           </TabPanel>
         </TabContext>
       </Box>
+      <SnackBar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        onClose={() => setSnackbarOpen(false)}
+      />
     </Box>
   );
 };

@@ -1,8 +1,8 @@
 import { SvgIconComponent } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Button, ButtonProps } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
-interface IconButtonProps {
+interface IconButtonProps extends ButtonProps {
   label: string;
   icon: SvgIconComponent;
   onClick: () => void;
@@ -14,6 +14,7 @@ const IconButton = ({
   icon: Icon,
   onClick,
   selected = false,
+  ...buttonProps
 }: IconButtonProps) => {
   return (
     <Button
@@ -34,6 +35,7 @@ const IconButton = ({
         },
         maxWidth: '97px',
       }}
+      {...buttonProps}
     >
       <Icon fontSize="large" />
       <Typography

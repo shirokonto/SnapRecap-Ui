@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, ChangeEvent } from 'react';
+import React, { Dispatch, SetStateAction, ChangeEvent } from 'react';
 import { Box, Button, Stack, Typography, Grid2 } from '@mui/material';
 import InputFieldBox from 'components/boxes/InputFieldBox';
 import VideoUploadBox from 'components/boxes/VideoUploadBox';

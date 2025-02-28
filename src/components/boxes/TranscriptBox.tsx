@@ -34,7 +34,7 @@ const TranscriptBox = ({ transcription, onJumpTo }: TranscriptBoxProps) => {
         variant="body2"
         sx={{ color: '#555555', fontWeight: 'light' }}
       >
-        Click on any time stamp or word below to jump to the part of the video.
+        Click on any timestamp or word below to jump to the part of the video.
       </Typography>
       {/* Transcription Field with Scrollbar */}
       <Box

@@ -58,23 +58,24 @@ const VerifyTab = ({
             <IconButton
               label="Screenshots"
               icon={ImageOutlinedIcon}
+              disabled={true}
               onClick={() => setActiveSideTab('screenshots')}
               selected={activeSideTab === 'screenshots'}
             />
           </Box>
         </Grid2>
         <Grid2 size={8}>
-          {activeSideTab === 'transcript' && (
-            <TranscriptSideTab
-              transcription={transcription}
-              videoFile={videoFile}
-            />
-          )}
           {activeSideTab === 'summary' && (
             <SummarySideTab
               summary={summary}
               sections={sections}
               setSummary={setSummary}
+            />
+          )}
+          {activeSideTab === 'transcript' && (
+            <TranscriptSideTab
+              transcription={transcription}
+              videoFile={videoFile}
             />
           )}
           {activeSideTab === 'screenshots' && <ScreenshotSideTab />}

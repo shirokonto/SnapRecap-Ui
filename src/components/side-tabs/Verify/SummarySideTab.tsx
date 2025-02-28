@@ -28,7 +28,15 @@ const SummarySideTab = ({
   }, [editorState, setSummary]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box
+      sx={{
+        flexDirection: 'column',
+        gap: 2,
+        backgroundColor: '#F8F9F9',
+        borderRadius: '8px',
+        padding: '16px',
+      }}
+    >
       <Editor
         editorState={editorState}
         onEditorStateChange={setEditorState}
@@ -45,6 +53,13 @@ const SummarySideTab = ({
             inDropdown: false,
             options: ['Normal', 'H1', 'H2', 'H3', 'Blockquote'],
           },
+        }}
+        editorStyle={{
+          backgroundColor: '#FFFFFF',
+          borderRadius: '8px',
+          border: '1px solid',
+          borderColor: '#F1F1F1',
+          padding: '16px',
         }}
       />
     </Box>

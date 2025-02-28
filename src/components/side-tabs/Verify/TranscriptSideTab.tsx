@@ -16,7 +16,6 @@ const TranscriptSideTab = ({
   const [jumpTimestamp, setJumpTimestamp] = useState<number | null>(null);
 
   const handleJumpTo = (timestamp: number) => {
-    console.log('Jumping to timestamp:', timestamp);
     setJumpTimestamp(timestamp);
   };
 
