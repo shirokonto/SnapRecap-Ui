@@ -1,42 +1,26 @@
 # SnapRecap
-
-Tool, that transcribes and summarizes video content and export the summary on Confluence.
+Transcribes and summarizes video content and let user export the summary on Confluence or as PDF.\
+SnapRecap as a whole works only in combination with this repository as UI and [SnapRecap-Srv](https://github.com/shirokonto/whisper-subtitles).
 
 ## Features
-
-In the project directory, you can run:
+SnapRecap offers users to upload video files in .mp4 format and generate a short summary of the content. 
 
 ### Upload Video
 In the Upload tab, choose a fitting title that will later be used for the exported summary.\
 Upload a video that you want to transcribe and summarize.\
-If known, set sections in the video, that will help to get a better summary structure.
+Choose between summarizing the whole video content or chapter-wise by defining sections.
 
 ### Verify Result
-After a few seconds, the result will be displayed in the Verify tab.\
-Edit the result in the text editor or look at the transcript that was generated from the video.
+The result will be displayed in the Verify tab after a few seconds or minutes, depending on the video length.\
+Edit the summarization result in the text editor or check the transcript, that was generated from the video.
 
 ### Export Result
-As last step, export the result to Confluence or download the result as a PDF file.
-
+Download the result as a PDF file or export it to Confluence.\
+Choose between updating an existing page or create a new subpage under the given page ID.\
+The Confluence Base Url can be set in the .env file of the server.
 
 ## Setup
 
 ### `npm start`
-
-Runs the app in the development mode.\
+Run the app in development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
